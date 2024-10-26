@@ -2,33 +2,50 @@ package com.haneeth.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MyFirstService {
 
-    // Field injection -- for this @AutoWired is mandatory
-    // @Autowired
-    // @Qualifier("myFirstClass")  // Even though we have given primary for bean still we can use qualifier to get exact bean
     private MyFirstClass myFirstClass;
 
-    // This is constructor injection.
-    // It is not mandatory to use autowired keyword
+
+    // Special Spring beans It gives all data related to environment
+    // It can also read any property written in our property file
+    private Environment environment;
+
+    // To inject value into variables from external sources like property file,environment variable,system property
+    @Value("${my.custom.property}")
+    private String name;
+
     @Autowired // It is written at constructor level so that spring will know to do bean injection
     public MyFirstService(@Qualifier("mySecondClass") MyFirstClass myFirstClass){
         this.myFirstClass = myFirstClass;
     }
 
-    // We can also do using dependecy injection using setter
-//    @Autowired
-//    public void setFirstClass(MyFirstClass myFirstClass){
-//        this.myFirstClass = myFirstClass;
-//    }
+    // Setter injection for Environment;
+    @Autowired
+    public void setEnvironment(Environment environment){
+        this.environment = environment;
+    }
 
-//        public MyFirstService(MyFirstClass myFirstClass){
-//        this.myFirstClass = myFirstClass;
-//    }
+    public String getJavaVersion(){
+        return environment.getProperty("java.version");
+    }
+
+    public String getOs(){
+        return environment.getProperty("os.name");
+    }
+
+    // It can also read any property written in our property file
+    public String getProperty(){
+        return environment.getProperty("my.custom.property");
+    }
+
+
     public String tellAsStory(){
-        return "The dependency is saying: "+myFirstClass.sayHello();
+        return "The dependency is saying: "+myFirstClass.sayHello()+" "+name;
     }
 }

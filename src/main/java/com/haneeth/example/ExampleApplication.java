@@ -25,7 +25,10 @@ public class ExampleApplication {
 
 		//MyFirstClass myFirstClass = new MyFirstClass();
 
-		MyFirstClass myFirstClass = ctx.getBean(MyFirstClass.class);
+//		MyFirstClass myFirstClass = ctx.getBean(MyFirstClass.class);
+		//Different method for get beans
+//		MyFirstClass myFirstClass = ctx.getBean("myFirstClass",MyFirstClass.class);
+		MyFirstClass myFirstClass = ctx.getBean("myBean",MyFirstClass.class);
 		System.out.println(myFirstClass.sayHello());
 		}
 }

@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApplicationConfig {
-    @Bean
+	// Bean naming you can give @bean or @bean("name")
+    @Bean("myBean")
 	public MyFirstClass myFirstClass(){
 		return new MyFirstClass();
 	}

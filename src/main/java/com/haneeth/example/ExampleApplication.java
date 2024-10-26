@@ -16,19 +16,7 @@ public class ExampleApplication {
 	public static void main(String[] args) {
 		var ctx = SpringApplication.run(ExampleApplication.class, args);
 
-		// To see all created beans
-//		for (var i : ctx.getBeanDefinitionNames()){
-//			System.out.println(i);
-//		}
-
-		// Normal way to call method in a class
-
-		//MyFirstClass myFirstClass = new MyFirstClass();
-
-//		MyFirstClass myFirstClass = ctx.getBean(MyFirstClass.class);
-		//Different method for get beans
-//		MyFirstClass myFirstClass = ctx.getBean("myFirstClass",MyFirstClass.class);
-		MyFirstClass myFirstClass = ctx.getBean("myBean",MyFirstClass.class);
-		System.out.println(myFirstClass.sayHello());
+		MyFirstService myFirstService = ctx.getBean(MyFirstService.class);
+		System.out.println(myFirstService.tellAsStory());
 		}
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
 // Method 5
 
@@ -43,13 +44,15 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class ApplicationConfig {
 	// Since constructor with parameter we need to use value here
+	// Making this bean available only in dev environment
 	@Bean
+	@Profile("dev")
 	public MyFirstClass myFirstClass(){
 		return new MyFirstClass("my var");
 	}
 
 	@Bean
-	@Primary // Give high priority for this bean
+	// Give high priority for this bean
 	public MyFirstClass mySecondClass(){
 		return new MyFirstClass("my primary");
 	}

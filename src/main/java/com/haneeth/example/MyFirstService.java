@@ -21,7 +21,7 @@ public class MyFirstService {
     private String name;
 
     @Autowired // It is written at constructor level so that spring will know to do bean injection
-    public MyFirstService(@Qualifier("mySecondClass") MyFirstClass myFirstClass){
+    public MyFirstService(MyFirstClass myFirstClass){
         this.myFirstClass = myFirstClass;
     }
 

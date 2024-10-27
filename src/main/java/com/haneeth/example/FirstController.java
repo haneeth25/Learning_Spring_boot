@@ -3,58 +3,45 @@ package com.haneeth.example;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 // TO make this class a Controller
 @RestController
 public class FirstController {
 
-    // Hello is end point
-//    @GetMapping("/hello")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    // Manually we are assigning a response status using HttpStatus enum class
-//    public String sayHello(){
-//        return "hello from Controller";
-//    }
+    private final StudentRepository repository;
 
-    @PostMapping("/post")
-    public String post(
-            @RequestBody String message
-    ){
-        return "Request accepted and message is :"+message ;
+    // We are using constructor injection here
+    public FirstController(StudentRepository repository) {
+        this.repository = repository;
     }
 
-    //  Using pojo here
-    @PostMapping("/post-order")
-    public String post(
-            @RequestBody Order order
+    // Create
+    @PostMapping("/students")
+    public Student post(
+            @RequestBody Student student
     ){
-        return "Request accepted and message is :"+order.toString() ;
+        return repository.save(student);
+    }
+    // Read
+    @GetMapping("/students")
+    public List<Student> allStudents(){
+        return repository.findAll();
     }
 
-    // using record here
-    @PostMapping("/post-order-record")
-    public String postRecord(
-            @RequestBody OrderRecord order
+    //Read
+    @GetMapping("/students/{student-id}")
+    public Student findById(
+            @PathVariable("student-id") Integer id
     ){
-        return "Request accepted and message is :"+order.toString() ;
+        return repository.findById(id).orElse(null);
     }
 
-    // Uses this when value is part of url
-    //Pass parameter to specific method
-    @GetMapping("/hello/{user-name}")
-    public String pathVar(
-            @PathVariable("user-name") String userName
+    @GetMapping("/students/search/{student-name}")
+    public List<Student> findByName(
+            @PathVariable("student-name")  String name
     ){
-        return "my value = " + userName;
-    }
-
-    //Used to extract query_parameters here
-    // http://localhost:8080/hello?user_name=paramvalue&user_lastname=value_2
-    @GetMapping("/hello")
-    public String paramVar(
-            @RequestParam("user_name") String userName,
-            @RequestParam("user_lastname") String userLastName
-    ){
-        return "my value ="+userName+" "+userLastName;
+        return repository.findAllByFirstnameContaining(name);
     }
 
 }

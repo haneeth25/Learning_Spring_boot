@@ -34,6 +34,13 @@ public class Student {
 
     }
 
+    public Student(String firstname, String lastname, int age, School school) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.age = age;
+        this.school = school;
+    }
+
     public Integer getId() {
         return id;
     }

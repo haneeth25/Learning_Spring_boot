@@ -16,12 +16,33 @@ public class FirstController {
         this.repository = repository;
     }
 
+    public Student toStudent(StudentDto studentDto){
+        var student = new Student();
+        student.setFirstname(studentDto.getFirstname());
+        student.setLastname(studentDto.getLastname());
+        student.setAge(studentDto.getAge());
+        var school = new School();
+        school.setId(studentDto.getId());
+        student.setSchool(school);
+        return student;
+    }
+    public StudentResponseDto toStudentResponseDto(Student student){
+        var studentResponseDto = new StudentResponseDto();
+        studentResponseDto.setFirstname(student.getFirstname());
+        studentResponseDto.setLastname(student.getLastname());
+        studentResponseDto.setAge(student.getAge());
+        return studentResponseDto;
+    }
+
+
     // Create
     @PostMapping("/students")
-    public Student post(
-            @RequestBody Student student
+    public StudentResponseDto post(
+            @RequestBody StudentDto studentDto
     ){
-        return repository.save(student);
+        var student = toStudent(studentDto);
+        var response = repository.save(student);
+        return toStudentResponseDto(response);
     }
     // Read
     @GetMapping("/students")
